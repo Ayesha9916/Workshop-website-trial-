@@ -1,0 +1,41 @@
+\subsection{The type of interaction that the OSLR algorithm can and cannot model, and how to improve it for the latter situation.}
+    The algorithm can model linear data interactions. However, it would not perform well with data that display non-linearity, for example, a quadratic distribution of data. In this case, the model could work better by transforming the variables to square-root to get a linear relationship.
+    
+    \subsection{Assumptions and Derivation of Analytical Solution}
+    \textbf{Assumptions:}
+    \begin{enumerate}
+    \item expected residual error value is zero. $\forall : E(\varepsilon_i) = 0$
+    \item zero correlation and equal variance of residuals. $\forall : Var(\varepsilon_i) = \sigma^2$
+   \item the residuals are normally distributed. $\varepsilon_i \sim N(0,\sigma^2)$
+   \end{enumerate}
+   \textbf {Derivation:}\\
+    Consider the augmented vector notation:
+    \begin{equation*}
+        y = Xw + \epsilon
+    \end{equation*}
+    To minimize the sum of squared residual errors,
+    \newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+    \begin{equation*}
+        \argmin_w ||\varepsilon||^2 = \argmin_w ||y - Xw||^2
+    \end{equation*}
+    Here,
+    \begin{align*}
+        \argmin_w ||y - Xw||^2 &= (y-Xw)^T (y-Xw)\\
+        &= y^Ty - (Xw)^Ty - y^TXw + (Xw)^TXw\\
+        &= y^Ty - w^TX^Ty - y^TXw + w^TX^TXw\\
+        \intertext{Since $w^TX^Ty$ is scalar, so $w^TX^Ty = (w^TX^Ty)^T = y^TXw$. Therefore,} 
+        &= y^Ty - 2y^TXw + w^TX^TXw\\
+        \intertext{applying partial derivatives with respect to $w$ and equating it to 0}
+        \frac{\partial}{\partial w} (y^Ty - 2y^TXw + w^TX^TXw)   &= 0\\
+        - 2y^TX + w^T(X^TX + (X^TX)^T) &= 0\\
+        - 2y^TX + 2w^TX^TX &= 0\\
+         \intertext{dividing by 2,}
+        - y^TX + w^TX^TX &= 0\\
+        \intertext{adding $y^TX$ on both sides,}
+        w^TX^TX &= y^TX\\
+        X^TXw &= X^Ty\\
+        \intertext{multiplying by inverse of $X^TX$,}
+        w &= (X^TX)^{-1}X^Ty
+    \end{align*}
+    \subsection{Situation when squared error loss function would not perform well and alternative loss functions.}
+    This method is highly sensitive to outliers, since squares of the residual errors of outliers would be large, which would significantly influence the decision. Thus, it would not perform well on noisy data. Some alternative loss functions that could be used include the absolute loss (L1) function and Huber loss function. 
